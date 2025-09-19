@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Pagination\Paginator;
 
 use App\Models\Shipping;
 
@@ -9,8 +10,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
+    Paginator::useBootstrapFive();
+
     return view('main', [
-        "shippings" => Shipping::all()
+        "shippings" => Shipping::orderBy('created_at', 'desc')->paginate(4)
     ]);
 });
 
