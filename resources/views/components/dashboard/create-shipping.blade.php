@@ -1,39 +1,47 @@
-<h3>Новая заявка на поставку</h3>
+<h3 class="mb-3">Новая заявка на поставку</h3>
 
-<form class="mt-3" action="/dashboard/create-shipping" method="POST">
+<form action="/dashboard/create-shipping" method="POST" class="card p-4 shadow-sm">
     @csrf
 
-    <h4>Откуда забирать товар</h4>
-
-    <div class="mb-3">
-        <label for="from-city" class="form-label">Город</label>
-        <input type="text" id="" name="from_city" required>
-        
-        <label for="from-street" class="form-label">Улица</label>
-        <input type="text" id="" name="from_street" required>
-        
-        <label for="from-building" class="form-label">Дом</label>
-        <input type="text" id="" name="from_building" required>
-        
-        <label for="from-apartment" class="form-label">Квартира</label>
-        <input type="text" id="" name="from_apartment">
+    <h5>Откуда забирать товар</h5>
+    <div class="row mb-3">
+        <div class="col-md-6 mb-2">
+            <label class="form-label">Город</label>
+            <input type="text" name="from_city" class="form-control" required>
+        </div>
+        <div class="col-md-6 mb-2">
+            <label class="form-label">Улица</label>
+            <input type="text" name="from_street" class="form-control" required>
+        </div>
+        <div class="col-md-6 mb-2">
+            <label class="form-label">Дом</label>
+            <input type="text" name="from_building" class="form-control" required>
+        </div>
+        <div class="col-md-6 mb-2">
+            <label class="form-label">Квартира</label>
+            <input type="text" name="from_apartment" class="form-control">
+        </div>
     </div>
 
-    <h4>Куда отправлять товар</h4>
-
-    <div class="mb-3">
-        <label for="to-city" class="form-label">Город</label>
-        <input type="text" id="" name="to_city" required>
-        
-        <label for="to-street" class="form-label">Улица</label>
-        <input type="text" id="" name="to_street" required>
-        
-        <label for="to-building" class="form-label">Дом</label>
-        <input type="text" id="" name="to_building" required>
-        
-        <label for="to-apartment" class="form-label">Квартира</label>
-        <input type="text" id="" name="to_apartment">
+    <h5>Куда отправлять товар</h5>
+    <div class="row mb-3">
+        <div class="col-md-6 mb-2">
+            <label class="form-label">Город</label>
+            <input type="text" name="to_city" class="form-control" required>
+        </div>
+        <div class="col-md-6 mb-2">
+            <label class="form-label">Улица</label>
+            <input type="text" name="to_street" class="form-control" required>
+        </div>
+        <div class="col-md-6 mb-2">
+            <label class="form-label">Дом</label>
+            <input type="text" name="to_building" class="form-control" required>
+        </div>
+        <div class="col-md-6 mb-2">
+            <label class="form-label">Квартира</label>
+            <input type="text" name="to_apartment" class="form-control">
+        </div>
     </div>
 
-    <button type="submit" class="btn btn-primary">Отправить</button>
+    <button type="submit" class="btn btn-primary w-100">Создать заявку</button>
 </form>
