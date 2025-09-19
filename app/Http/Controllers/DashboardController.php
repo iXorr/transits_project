@@ -9,11 +9,10 @@ use App\Models\ReceiptStatus;
 use App\Models\DeliveryStatus;
 use App\Models\Vehicle;
 use App\Models\VehicleType;
+use App\Models\Address;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-use App\Models\Address;
 
 class DashboardController extends Controller
 {
@@ -72,7 +71,7 @@ class DashboardController extends Controller
                 "apartment" => $request->to_apartment
             ]);
 
-            $shipping = Shipping::create([
+            Shipping::create([
                 "user_id" => Auth::user()->id,
                 "sender_address_id" => $from_address->id,
                 "delivery_address_id" => $to_address->id,
@@ -80,11 +79,8 @@ class DashboardController extends Controller
                 "delivery_status_id" => DeliveryStatus::where("title", "waiting")->first()->id
             ]);
 
-            
-            return redirect()->back()->with("msg", "Заявка создана");
-        }
-        
-        catch (Exception $e) {
+            return redirect("/dashboard/my-shippings")->with("msg", "Заявка создана");
+        } catch (Exception $e) {
             return redirect()->back()->withErrors([
                 "error_db" => "Произошла ошибка при записи в БД"
             ]);
@@ -105,20 +101,19 @@ class DashboardController extends Controller
 
     public function editShipping(Request $request, $shipping_id) {
         try {
-            $shipping = null;
+            $shipping = Shipping::find($shipping_id);
 
             if (isset($request->updated_receipt_status)) {
-                $shipping = Shipping::find($shipping_id);
                 $shipping->receipt_status_id = ReceiptStatus::where("title", $request->updated_receipt_status)->first()->id;
             }
-            
+
             if (isset($request->updated_delivery_status)) {
-                $shipping = Shipping::find($shipping_id);
                 $shipping->delivery_status_id = DeliveryStatus::where("title", $request->updated_delivery_status)->first()->id;
             }
-            
+
             $shipping->save();
-            return redirect()->back()->with("msg", "Статус изменён");            
+
+            return redirect("/dashboard/my-shippings")->with("msg", "Статус изменён");
         } catch (Exception $e) {
             return redirect()->back()->withErrors([
                 "error_db" => "Произошла ошибка при изменении записи в БД"
@@ -130,7 +125,7 @@ class DashboardController extends Controller
         try {
             Shipping::find($shipping_id)->delete();
 
-            return redirect()->back()->with("msg", "Поставка удалена");
+            return redirect("/dashboard/my-shippings")->with("msg", "Поставка удалена");
         } catch (Exception $e) {
             return redirect()->back()->withErrors([
                 "error_db" => "Произошла ошибка при удалении из БД"
@@ -153,7 +148,7 @@ class DashboardController extends Controller
         $user = Auth::user();
 
         try {
-            $vehicle = Vehicle::create([            
+            Vehicle::create([
                 "vehicle_type_id" => $request->vehicle_type_id,
                 "driver_id" => $user->id,
                 "capacity" => $request->capacity,
@@ -162,14 +157,12 @@ class DashboardController extends Controller
                 "factory_number" => $request->factory_number
             ]);
 
-            return redirect()->back()->with("msg", "Транспорт добавлен");
-        }
-        
-        catch (Exception $e) {
+            return redirect("/dashboard/my-shippings")->with("msg", "Транспорт добавлен");
+        } catch (Exception $e) {
             return redirect()->back()->withErrors([
                 "error_db" => "Произошла ошибка при записи в БД"
             ]);
-        }   
+        }
     }
 
     public function getUserVehicles(Request $request) {
@@ -186,7 +179,8 @@ class DashboardController extends Controller
     public function deleteVehicle(Request $request, $vehicle_id) {
         try {
             Vehicle::find($vehicle_id)->delete();
-            return redirect()->back()->with("msg", "Транспорт удалён");
+
+            return redirect("/dashboard/my-shippings")->with("msg", "Транспорт удалён");
         } catch (Exception $e) {
             return redirect()->back()->withErrors([
                 "error_db" => "Произошла ошибка при удалении из БД"
@@ -216,7 +210,7 @@ class DashboardController extends Controller
             $shipping->delivery_status_id = $transit_delivery_status_id;
             $shipping->save();
 
-            return redirect()->back()->with("msg", "Поставка взята");
+            return redirect("/dashboard/my-shippings")->with("msg", "Поставка взята");
         } catch (Exception $e) {
             return redirect()->back()->withErrors([
                 "error_db" => "Произошла ошибка при изменении записи из БД"

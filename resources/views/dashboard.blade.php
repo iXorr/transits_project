@@ -1,3 +1,5 @@
+@section("title", "Личный кабинет")
+
 <x-basic.layout>
     <div class="container">
         <x-dashboard.inner-nav :user="$user" />
@@ -24,9 +26,11 @@
             @endif
 
             @if (session("msg"))
-                <div class="alert alert-success alert-dismissible fade show mt-3">
-                    {{ session('msg') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+                <div class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1080;">
+                    <div class="alert alert-success alert-dismissible fade show shadow" role="alert">
+                        {{ session('msg') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+                    </div>
                 </div>
             @endif
         </div>

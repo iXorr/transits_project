@@ -4,7 +4,7 @@
     <div class="card mb-3 shadow-sm">
         <div class="card-body">
             @if($user->role->title === 'client')
-                <p><strong>Водитель:</strong> {{ $shipping->vehicle->driver->id ?? "Не назначен" }}</p>
+                <p><strong>Водитель:</strong> {{ $shipping->vehicle->driver->name ?? "Не назначен" }}</p>
             @elseif ($user->role->title === 'driver')
                 <p><strong>Клиент:</strong> {{ $shipping->user->name }} {{ $shipping->user->surname }}</p>
             @endif
